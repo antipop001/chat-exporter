@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <style>
+    body {
+      font-family: -apple-system, sans-serif;
+      width: 240px;
+      padding: 12px;
+    }
+    button {
+      width: 100%;
+      padding: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      margin-bottom: 8px;
+    }
+    #status {
+      font-size: 12px;
+      color: #555;
+      min-height: 16px;
+    }
+  </style>
+</head>
+<body>
+  <button id="exportTopDown">Export (top → bottom)</button>
+  <button id="exportBottomUp">Export (bottom → top)</button>
+  <div id="status"></div>
+  <script src="popup.js"></script>
+</body>
+</html>

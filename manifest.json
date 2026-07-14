@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Chat Exporter",
+  "version": "1.0",
+  "description": "Export the visible text of a scrollable chat conversation to a .txt file.",
+  "permissions": ["activeTab", "scripting", "downloads"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Chat Exporter"
+  }
+}
