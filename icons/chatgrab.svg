@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <!-- Gradient Definition -->
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F46E5"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- Rounded Rectangle Background -->
+  <rect width="128" height="128" rx="28" fill="url(#bg-gradient)"/>
+
+  <!-- Speech Bubble Symbol -->
+  <path d="M94 36H34c-6.6 0-12 5.4-12 12v36c0 6.6 5.4 12 12 12h18l12 12 12-12h18c6.6 0 12-5.4 12-12V48c0-6.6-5.4-12-12-12z" 
+        fill="#FFFFFF" 
+        filter="url(#shadow)"/>
+
+  <!-- Download/Grab Arrow -->
+  <path d="M64 52v20M52 64l12 12 12-12" 
+        stroke="#6366F1" 
+        stroke-width="8" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        fill="none"/>
+        
+  <!-- Base Tray/Folder line -->
+  <path d="M50 82h28" 
+        stroke="#6366F1" 
+        stroke-width="6" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"/>
+</svg>

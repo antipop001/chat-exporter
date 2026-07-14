@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bg-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F46E5"/>
+      <stop offset="100%" stop-color="#7C3AED"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded background: smaller radius reads better at 16px -->
+  <rect width="128" height="128" rx="22" fill="url(#bg-gradient)"/>
+
+  <!-- Bubble: larger, no shadow, no tail (both vanish at 16px) -->
+  <rect x="22" y="30" width="84" height="60" rx="14" fill="#FFFFFF"/>
+
+  <!-- Bold download arrow, oversized for legibility -->
+  <path d="M64 44v26M49 58l15 15 15-15"
+        stroke="#5B4FE0"
+        stroke-width="12"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        fill="none"/>
+</svg>
