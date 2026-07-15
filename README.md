@@ -24,21 +24,28 @@ each step, and de-duplicates lines before exporting.
 1. Open the chat/conversation page you want to export.
 2. Click the extension icon.
 3. Choose **Export (top → bottom)** or **Export (bottom → top)**.
-4. Wait while it scrolls (this can take a bit for long conversations).
+4. Wait while it scrolls (this can take a bit for long conversations). You can
+   close the popup and keep using the browser — the export continues in the
+   background. Reopen the popup to check progress.
 5. A `.txt` file downloads automatically with the collected lines.
 
 ## How it works
 
 - `manifest.json` — MV3 config. Requests only `activeTab`, `scripting`, and
-  `downloads` permissions — no persistent background access, and no host
-  permissions, so it only ever runs on the tab you're actively viewing when
-  you click the button.
-- `scraper.js` — injected into the page. Finds the largest scrollable
-  container on the page, scrolls it incrementally in the chosen direction,
-  and collects unique trimmed lines of visible text into a `Set`.
-- `popup.js` — wires the popup buttons to script injection, then turns the
-  returned text into a downloadable blob via `chrome.downloads.download`.
-- `popup.html` — the popup UI.
+  `downloads` permissions — no host permissions, so it only ever runs on the
+  tab you're actively viewing when you click the button.
+- `background.js` — the service worker, which owns the whole export. It drives
+  the scroll loop one step at a time via `chrome.scripting`, collects unique
+  trimmed lines into a `Set`, and downloads the result. Running here rather
+  than in the popup is deliberate: an extension popup is destroyed as soon as
+  it loses focus, which would silently abandon a long export mid-run.
+- `popup.js` / `popup.html` — a thin remote control. The buttons tell the
+  service worker to start; the status line polls it for progress.
+
+The page-side scroll/collect step is injected from `background.js` via
+`chrome.scripting.executeScript`'s `func` option. Driving it one step per call
+(rather than one long-running injected function) also keeps the service worker
+alive for the duration, since each call resets its idle timer.
 
 ## Limitations
 

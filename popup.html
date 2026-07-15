@@ -20,12 +20,20 @@
       color: #555;
       min-height: 16px;
     }
+    #hint {
+      font-size: 11px;
+      color: #888;
+      margin-top: 8px;
+      line-height: 1.4;
+    }
   </style>
 </head>
 <body>
   <button id="exportTopDown">Export (top → bottom)</button>
   <button id="exportBottomUp">Export (bottom → top)</button>
   <div id="status"></div>
+  <div id="hint">You can close this popup — the export keeps running and the
+    file downloads when it finishes. Reopen to check progress.</div>
   <script src="popup.js"></script>
 </body>
 </html>

@@ -1,48 +1,30 @@
+// The popup is only a remote control. The export itself runs in the service
+// worker (background.js), so closing this popup does not stop it.
+
 const statusEl = document.getElementById('status');
 
-async function runExport(direction) {
-  statusEl.textContent = 'Scrolling and collecting...';
-
-  const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  if (!tab?.id) {
-    statusEl.textContent = 'No active tab found.';
-    return;
-  }
-
+async function poll() {
   try {
-    // Inject the scraper function definition first
-    await chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      files: ['scraper.js']
-    });
-
-    // Then call it and get the result back
-    const [{ result }] = await chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      func: (dir) => scrapeChat(dir),
-      args: [direction]
-    });
-
-    if (!result?.ok) {
-      statusEl.textContent = result?.error || 'Failed to scrape page.';
-      return;
-    }
-
-    const blob = new Blob([result.text], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const filename = `chat-export-${direction}.txt`;
-
-    await chrome.downloads.download({
-      url,
-      filename,
-      saveAs: false
-    });
-
-    statusEl.textContent = `Done — ${result.count} lines saved.`;
-  } catch (err) {
-    statusEl.textContent = `Error: ${err.message}`;
+    const s = await chrome.runtime.sendMessage({ cmd: 'status' });
+    if (s?.text) statusEl.textContent = s.text;
+  } catch {
+    // Service worker asleep between exports; nothing to report.
   }
 }
 
-document.getElementById('exportTopDown').addEventListener('click', () => runExport('topDown'));
-document.getElementById('exportBottomUp').addEventListener('click', () => runExport('bottomUp'));
+async function start(direction) {
+  statusEl.textContent = 'Starting...';
+  try {
+    await chrome.runtime.sendMessage({ cmd: 'export', direction });
+  } catch (err) {
+    statusEl.textContent = `Error: ${err.message}`;
+    return;
+  }
+  poll();
+}
+
+document.getElementById('exportTopDown').addEventListener('click', () => start('topDown'));
+document.getElementById('exportBottomUp').addEventListener('click', () => start('bottomUp'));
+
+poll();
+setInterval(poll, 500);
